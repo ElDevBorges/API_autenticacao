@@ -9,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Table
-
 public class Usuario implements UserDetails {
 
     @Id
@@ -17,14 +16,22 @@ public class Usuario implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
-    private String login;
+    private String email;
 
     @Column (nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column (nullable = false)
+    private Role role;
+
+    @OneToOne
+    private Perfil perfil;
+
     public Usuario () {}
-    public Usuario (String login, String password) {
-        this.login = login;
+
+    public Usuario (String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
@@ -35,12 +42,12 @@ public class Usuario implements UserDetails {
     public void setId (Long id) {
         this.id = id;
     }
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin (String login) {
-        this.login = login;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword () {
@@ -59,7 +66,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
 
