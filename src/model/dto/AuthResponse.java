@@ -3,6 +3,8 @@ package model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
+//DTO de de saida.
 @Data
 @AllArgsConstructor
 public class AuthResponse {
