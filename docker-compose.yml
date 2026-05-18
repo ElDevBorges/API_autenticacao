@@ -31,7 +31,7 @@ services:
 
   redis:
     image: redis:latest
-    command: redis-server --requirepass Lf19092019f-
+    command: ${REQUIRE_PASSWORD_REDIS}
     ports:
       - "6379:6379"
     volumes:
