@@ -118,4 +118,18 @@ public class UserService {
         return "Usuário " + user.getEmail() + " Deletado com sucesso!";
 
     }
+
+    public boolean updatePassword (NewPasswordDTO dto) {
+        var user = usuarioRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.email(),dto.password()));
+
+        var newPassword = passwordEncoder.encode(dto.newPassword());
+        user.setPassword(newPassword);
+
+        usuarioRepository.save(user);
+
+        return true;
+    }
 }

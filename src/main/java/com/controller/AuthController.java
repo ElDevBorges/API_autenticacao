@@ -2,6 +2,7 @@ package com.controller;
 
 import com.model.dto.AuthRequestDTO;
 import com.model.dto.EmailDTO;
+import com.model.dto.NewPasswordDTO;
 import com.model.dto.RegisterDTO;
 import com.model.services.LogoutService;
 import com.model.services.UserService;
@@ -45,7 +46,7 @@ public class AuthController {
     @PostMapping ("/register")
     public ResponseEntity register (@RequestBody RegisterDTO registerDTO) {
         userService.save(registerDTO);
-        return ResponseEntity.status(200).build();
+        return ResponseEntity.status(201).build();
 
     }
 
@@ -59,6 +60,12 @@ public class AuthController {
     @GetMapping("/list")
     public List<EmailDTO> list () {
         return userService.listarTodos();
+    }
+
+    @PostMapping("/newPassword")
+    public ResponseEntity newPassword (@RequestBody NewPasswordDTO newPasswordDTO) {
+        userService.updatePassword(newPasswordDTO);
+        return  ResponseEntity.status(200).build();
     }
 
 
