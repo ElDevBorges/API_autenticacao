@@ -1,6 +1,8 @@
 package com.model.services;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +15,7 @@ public class LogoutService {
         this.tokenBlacklistService = tokenBlacklistService;
     }
 
-    public void logout (HttpServletRequest request) {
+    public void logout (HttpServletRequest request, HttpServletResponse response) {
         String token = null;
         if (request.getCookies() != null) {
             for (var cookie : request.getCookies()){
@@ -32,6 +34,12 @@ public class LogoutService {
             tokenBlacklistService.invalidar(jti, ttl);
             System.out.println("token invalidado");
         }
+
+        Cookie clearCookie = new Cookie ("token", null);
+        clearCookie.setHttpOnly(true);
+        clearCookie.setPath("/");
+        clearCookie.setMaxAge(0);
+        response.addCookie (clearCookie);
 
     }
 

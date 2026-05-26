@@ -39,14 +39,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
+
             try {
                 String jti = jwtService.extractJti(tokenJWT);
+                String email = jwtService.extractUsername(tokenJWT);
+
                 if (tokenBlacklistService.estaInvalido(jti)) {
-                    filterChain.doFilter(request, response);
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.setContentType ("application/json");
+                    response.getWriter().write("{\"error\": \"token revogado ou invalido \"}");
                     return;
                 }
 
-                final String email = jwtService.extractUsername(tokenJWT);
+
 
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     var userDetails = userDetailsService.loadUserByUsername(email);
@@ -58,6 +63,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 
             } catch (Exception e) {
+                System.out.println(e.getMessage());
                 SecurityContextHolder.clearContext();
             }
         filterChain.doFilter(request, response);

@@ -12,7 +12,7 @@ services:
       - DB_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
       - JWT=${JWT}
 
-      - REDIS_HOST=localhost
+      - REDIS_HOST=redis
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     depends_on:
       - db

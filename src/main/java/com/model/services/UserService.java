@@ -38,18 +38,6 @@ public class UserService {
         this.authenticationManager = authenticationManager;
     }
 
-    public List <EmailDTO> listarTodos() {
-    List<User> lista = usuarioRepository.findAll();
-    List<EmailDTO> listEmails = new ArrayList<>();
-
-    for (User user : lista) {
-        var userEmail = new EmailDTO(user.getEmail());
-        listEmails.add(userEmail);
-    }
-        return  listEmails;
-
-
-    }
 
     public Optional findById(long id) {
         if (!usuarioRepository.existsById(id)) {
@@ -89,6 +77,8 @@ public class UserService {
         user.setEmail(dto.email());
         var passwordBCrypt = passwordEncoder.encode(dto.password());
         user.setPassword(passwordBCrypt);
+
+        user.setRole(dto.role());
 
         Perfil perfil = new Perfil();
         perfil.setFull_name(dto.full_name());

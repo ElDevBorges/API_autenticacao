@@ -7,9 +7,11 @@ import com.model.dto.RegisterDTO;
 import com.model.services.LogoutService;
 import com.model.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,16 +53,14 @@ public class AuthController {
     }
 
     @PostMapping ("/logout")
-    public ResponseEntity logout (HttpServletRequest request) {
-        logoutService.logout(request);
+    public ResponseEntity logout (HttpServletRequest request, HttpServletResponse response) {
+        logoutService.logout(request, response);
+        SecurityContextHolder.clearContext();
         return ResponseEntity.status(200).build();
 
     }
 
-    @GetMapping("/list")
-    public List<EmailDTO> list () {
-        return userService.listarTodos();
-    }
+
 
     @PostMapping("/newPassword")
     public ResponseEntity newPassword (@RequestBody NewPasswordDTO newPasswordDTO) {
